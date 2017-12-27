@@ -1,50 +1,54 @@
 import React, { Component } from 'react';
 import '../App.css';
-import {Row, Input, Col, Button, Icon, Card } from 'react-materialize'
-import { connect } from 'react-redux'
-import { addPost, removePost } from '../actions'
-import serializeForm from 'form-serialize'
-
+import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addPost, removePost, fetchPosts } from '../actions';
+import NewPost from './NewPost';
+import { Row } from 'react-materialize';
+import Footer from './Footer';
+import VisiblePostList from './VisiblePostList';
 
 class App extends Component {
-
-  componentDidMount(){
-    console.log(this.props);
+  state ={
+    posts: []
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const values = serializeForm(e.target, { hash: true })
-
-    if (this.props.addPost)
-       this.props.addPost(values)
+  componentDidMount(){
+    this.props.receivePosts();
+    //console.log(this.props);
   }
 
   render() {
     return (
-      <Row> 
-        <Col s={6} offset="s3"> 
-          <Card>
-            <form onSubmit={this.handleSubmit}>
-              <Input name="title" placeholder="Título do post" label="Título do Post" s={12} />
-              <Input name="post" type="textarea" placeholder="Escreva seu post aqui" label="Post" s={12} />
-              <Button className="btn waves">Postar <Icon>send</Icon></Button>
-            </form>
-          </Card>
-        </Col>
-      </Row>
-    );
+      <div>
+        <Route path="/(react|redux|udacity|)/" render={() => (
+          <Row>
+            <VisiblePostList category={ this.props.match.params || 'all'} />
+            <Footer />
+          </Row>
+        )} />
+        <Route exact path='/newPost'  render={({ history }) => ( 
+          <NewPost 
+            AddPost= {post => {
+              this.props.addPost(post) 
+              history.push('/')
+            }}
+          /> 
+        )} />
+      </div>
+    )
   }
 }
 
-function mapStateToProps () {
-  return {}
+function mapStateToProps (state) {
+  return { state }
 }
 
 function mapDispatchToProps (dispatch){
   return {
     addPost: (data) => dispatch(addPost(data)),
-    removePost: (data) => dispatch(removePost(data))
+    removePost: (data) => dispatch(removePost(data)),
+    receivePosts: () => dispatch(fetchPosts())
   }
 }
 
