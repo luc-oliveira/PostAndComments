@@ -24,9 +24,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onPostClick: id => {
-      dispatch(visualizePost(id))
-    }
+    onPostClick: id => dispatch(visualizePost(id))
+    //newOrder: (comparer, order) => dispatch(changeOrder(comparer, order))
   }
 }
 

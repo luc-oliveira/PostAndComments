@@ -2,20 +2,15 @@ import React, { Component } from 'react';
 import '../App.css';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addPost, removePost, fetchPosts } from '../actions';
+import { persistPost, removePost, fetchPosts } from '../actions';
 import NewPost from './NewPost';
 import { Row } from 'react-materialize';
 import Footer from './Footer';
 import VisiblePostList from './VisiblePostList';
 
 class App extends Component {
-  state ={
-    posts: []
-  }
-
   componentDidMount(){
     this.props.receivePosts();
-    //console.log(this.props);
   }
 
   render() {
@@ -23,8 +18,8 @@ class App extends Component {
       <div>
         <Route path="/(react|redux|udacity|)/" render={() => (
           <Row>
-            <VisiblePostList category={ this.props.match.params || 'all'} />
             <Footer />
+            <VisiblePostList category={ this.props.match.params || 'all'} />
           </Row>
         )} />
         <Route exact path='/newPost'  render={({ history }) => ( 
@@ -46,7 +41,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch){
   return {
-    addPost: (data) => dispatch(addPost(data)),
+    addPost: (data) => dispatch(persistPost(data)),
     removePost: (data) => dispatch(removePost(data)),
     receivePosts: () => dispatch(fetchPosts())
   }

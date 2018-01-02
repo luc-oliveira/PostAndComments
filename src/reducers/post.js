@@ -6,11 +6,12 @@ import {
 } from '../actions'
 
 const initialState = {
-    posts: []
+    posts: [],
+    order: 'voteScore'
 }
 
 function post(state = initialState, action){
-    const post = action;
+    const { post } = action;
 
     switch(action.type){
         case RECEIVE_POSTS: 
@@ -35,7 +36,7 @@ function post(state = initialState, action){
             return {
                 state
             }
-        
+
         default:
             return state
     }

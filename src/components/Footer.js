@@ -16,10 +16,10 @@ const Footer = () => (
     </CategoryLink>
     <CategoryLink category="redux">
       Redux
-    </CategoryLink> 
+    </CategoryLink>
     <CategoryLink category="udacity">
       Udacity
-    </CategoryLink> 
+    </CategoryLink>
   </Row>
 )
 

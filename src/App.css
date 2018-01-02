@@ -15,6 +15,18 @@
   left: 50px;
 }
 
+.category-item{
+  font-family: 'Roboto';
+  color: #999999;
+  font-size: 2em;
+  padding: 10px;
+  text-transform: uppercase; 
+}
+
+.category-item-active{
+  color: #e74c3c;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

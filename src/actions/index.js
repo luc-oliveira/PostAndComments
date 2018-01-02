@@ -6,6 +6,12 @@ export const VISUALIZE_POST = 'VISUALIZE_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const LOAD_POSTS = 'LOAD_POSTS';
 
+export const persistPost = (post) => dispatch => {
+    POSTS_API
+        .sendPost(post)
+        .then(post => dispatch(addPost(post)))
+}
+
 export function addPost(post){
     return{
         type: ADD_POST,
