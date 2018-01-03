@@ -31,7 +31,7 @@ const store = createStore(
 ReactDOM.render(
 <Provider store={ store }>
     <Router>
-      <Route path="/:category?" component={App} />
+      <Route path="/:category?/:postId?" component={App} />
     </Router>
 </Provider>, document.getElementById('root'));
 registerServiceWorker();

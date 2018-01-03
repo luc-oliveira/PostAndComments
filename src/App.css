@@ -27,6 +27,19 @@
   color: #e74c3c;
 }
 
+.btn-vote{
+  padding: 0 1rem;
+}
+
+.btn-edit{
+  padding: 0 0.6rem;
+  color: #ccc;
+}
+
+.btn-edit a{
+  color: #333;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

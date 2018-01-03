@@ -34,7 +34,8 @@ function post(state = initialState, action){
         
         case VISUALIZE_POST:
             return {
-                state
+                ...state,
+                post
             }
 
         default:

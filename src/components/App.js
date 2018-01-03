@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { persistPost, removePost, fetchPosts } from '../actions';
 import NewPost from './NewPost';
+import EditPost from './EditPost';
 import { Row } from 'react-materialize';
 import Footer from './Footer';
 import VisiblePostList from './VisiblePostList';
@@ -16,7 +17,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route path="/(react|redux|udacity|)/" render={() => (
+        <Route exact path="/(react|redux|udacity|)/" render={() => (
           <Row>
             <Footer />
             <VisiblePostList category={ this.props.match.params || 'all'} />
@@ -29,6 +30,9 @@ class App extends Component {
               history.push('/')
             }}
           /> 
+        )} />
+        <Route exact path='/:category/:postId'  render={() => ( 
+          <EditPost id={this.props.match.params.postId} /> 
         )} />
       </div>
     )
