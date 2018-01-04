@@ -15,6 +15,10 @@
   left: 50px;
 }
 
+.margin-15{
+  margin: 0 0 15px 0;
+}
+
 .category-item{
   font-family: 'Roboto';
   color: #999999;
@@ -31,13 +35,17 @@
   padding: 0 1rem;
 }
 
-.btn-edit{
+.btn-edit, .btn-remove{
   padding: 0 0.6rem;
-  color: #ccc;
 }
 
 .btn-edit a{
   color: #333;
+}
+
+.span-info{
+  font-size: .8rem;
+  color: #9e9e9e;
 }
 
 @keyframes App-logo-spin {

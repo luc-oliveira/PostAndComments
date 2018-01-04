@@ -66,5 +66,17 @@ export const votePost = (postId, vote) => dispatch => {
 export const getPostComments = (postId) => dispatch => {
     POSTS_API
         .getPostComments(postId)
-        .then(comments => console.log(comments))
+        .then(comments => comments)
+}
+
+export const editPost = (post) => dispatch => {
+    POSTS_API
+        .putPost(post)
+        .then(post => dispatch(fetchPosts()))
+}
+
+export const excludePost = (post) => dispatch => {
+    POSTS_API
+        .deletePost(post)
+        .then(post => dispatch(fetchPosts()))
 }

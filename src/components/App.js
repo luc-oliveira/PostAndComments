@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { persistPost, removePost, fetchPosts } from '../actions';
+import { persistPost, editPost, excludePost, fetchPosts } from '../actions';
 import NewPost from './NewPost';
 import EditPost from './EditPost';
 import { Row } from 'react-materialize';
@@ -31,8 +31,21 @@ class App extends Component {
             }}
           /> 
         )} />
-        <Route exact path='/:category/:postId'  render={() => ( 
-          <EditPost id={this.props.match.params.postId} /> 
+        <Route exact path='/:category/:postId'  render={({ history }) => ( 
+          <EditPost 
+            id={this.props.match.params.postId}
+            
+            EditPost= {post => {
+              this.props.editPost(post) 
+              history.push('/')
+            }}
+
+            DeletePost= {post => {
+              this.props.removePost(post) 
+              history.push('/')
+            }}
+
+          /> 
         )} />
       </div>
     )
@@ -46,7 +59,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch){
   return {
     addPost: (data) => dispatch(persistPost(data)),
-    removePost: (data) => dispatch(removePost(data)),
+    editPost: (data) => dispatch(editPost(data)),
+    removePost: (data) => dispatch(excludePost(data)),
     receivePosts: () => dispatch(fetchPosts())
   }
 }

@@ -43,3 +43,25 @@ export function getPostComments(postId){
         headers: new Headers({ "Authorization": AUTH})
     }).then(resp => resp.json());
 }
+
+export function putPost(post){
+    let obj = JSON.stringify({ "title": post.title, "body": post.body });
+    return fetch(`${API_URL}/posts/${post.id}`, {
+        method: 'put',
+        headers: new Headers({ 
+            "Authorization": AUTH,
+            "Content-Type":"application/json" 
+        }),
+        body: obj
+    }).then(resp => resp.json());
+}
+
+export function deletePost(post){
+    return fetch(`${API_URL}/posts/${post.id}`, {
+        method: 'delete',
+        headers: new Headers({ 
+            "Authorization": AUTH,
+            "Content-Type":"application/json" 
+        })
+    }).then(resp => resp.json());
+}
