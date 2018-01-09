@@ -65,3 +65,35 @@ export function deletePost(post){
         })
     }).then(resp => resp.json());
 }
+
+export function sendComment(comment){
+    return fetch(`${API_URL}/comments`, {
+        method: 'post',
+        headers: new Headers({ 
+            "Authorization": AUTH,
+            "Content-Type":"application/json" 
+        }),
+        body: JSON.stringify(comment)
+    }).then(resp => resp.json());
+}
+
+export function voteComment(commentId, vote){
+    return fetch(`${API_URL}/comments/${commentId}`, {
+        method: 'post',
+        headers: new Headers({ 
+            "Authorization": AUTH,
+            "Content-Type":"application/json" 
+        }),
+        body: JSON.stringify({"option":`${vote}`})
+    }).then(resp => resp.json());
+}
+
+export function deleteComment(comment){
+    return fetch(`${API_URL}/comments/${comment.id}`, {
+        method: 'delete',
+        headers: new Headers({ 
+            "Authorization": AUTH,
+            "Content-Type":"application/json" 
+        })
+    }).then(resp => resp.json());
+}

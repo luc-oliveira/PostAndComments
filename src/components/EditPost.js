@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {Row, Input, Col, Button, Icon, Card } from 'react-materialize';
+import Modal from 'react-modal';
+import { persistComment } from '../actions';
 import serializeForm from 'form-serialize';
 import Moment from 'react-moment';
 import * as  POSTS_API from '../helpers/api';
 import { Link } from 'react-router-dom';
+import uuid from '../helpers/utils';
+import ListComments from './ListComments';
 
 class EditPost extends Component{
-    state = {
-        post: null,
-        comments: null,
-        id: this.props.id
+    constructor() {
+        super();
+
+        this.state = {
+            post: null,
+            comments: null,
+            id: this.id,
+            modalIsOpen: true
+        }
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
+    
+
     componentWillMount(){
+        
         if(this.props.post.posts.length > 0){
             this.setState({post: this.props.post.posts.find(post => post.id === this.state.id)});
         }
@@ -30,14 +45,48 @@ class EditPost extends Component{
             .then(comment => this.setState({comments: comment}));
     }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const post = serializeForm(e.target, { hash: true })
-    post.id = this.state.id;
+    refreshComment(){
+       POSTS_API
+            .getPostComments(this.state.id)
+            .then(comment => this.setState({comments: comment})); 
+    }
 
-    if(this.props.EditPost)
-       this.props.EditPost(post)        
-  }
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+    
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const post = serializeForm(e.target, { hash: true })
+        post.id = this.state.id;
+
+        if(this.props.EditPost)
+            this.props.EditPost(post)        
+    }
+
+    handleComentSubmit = (e) => {
+        e.preventDefault();
+        const commentario = serializeForm(e.target, { hash: true })
+
+        //add necessary values to post
+        commentario.id = uuid();
+        commentario.timestamp = Date.now();
+        commentario.voteScore = 1;   
+        commentario.parentId = this.state.id;  
+        
+        if(this.props.addComment)
+            //this.props.addComment(commentario);
+            //this.refreshComment();
+            //console.log(this.Modal.props.actions[0]);
+            //console.log(this.Modal.props.close()); //setState({close: true}); 
+            this.closeModal();
+            //this.Modal.props.modal = 'close';
+    }
+
 
   render(){
     let { post } = this.state;
@@ -73,7 +122,33 @@ class EditPost extends Component{
                     </form> 
                    </Col>
                 }
-                { this.state.comments != null ? this.state.comments.length : ''}
+                { this.state.comments != null && this.state.comments.length > 0
+                        ? <ListComments comments={this.state.comments} onRefreshComments={()=> this.refreshComment()} parentId={this.state.id} />
+                        : 'Não existem comentários neste post.'}
+                <Row> 
+                    <Col>
+                        <Button className="btn-add green" onClick={this.openModal}>
+                            <Icon tiny>add</Icon>
+                        </Button>
+                        <Modal
+                                isOpen={this.state.modalIsOpen}
+                                onRequestClose={this.closeModal}
+                            >
+                            <Row> 
+                                <Col> 
+                                    <Card>
+                                        <form onSubmit={this.handleComentSubmit}>
+                                            <Input name="title" placeholder="Título do post" s={12} />
+                                            <Input name="author" placeholder="Digite o nome do autor" s={6} />
+                                            <Input name="body" type="textarea" placeholder="Escreva seu post aqui" s={12} />
+                                            <Button className="btn waves">Comentar <Icon>send</Icon></Button>
+                                        </form>
+                                    </Card>
+                                </Col>
+                            </Row>
+                        </Modal>
+                    </Col> 
+                </Row>
                 </Card>
             </Col>
             <Link to="/">
@@ -88,5 +163,10 @@ function mapStateToProps (state) {
   return state
 }
 
+function mapDispatchToProps (dispatch){
+  return {
+    addComment: (data) => dispatch(persistComment(data))
+  }
+}
 
-export default connect(mapStateToProps, null)(EditPost);
+export default connect(mapStateToProps, mapDispatchToProps)(EditPost);
