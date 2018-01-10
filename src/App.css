@@ -48,6 +48,19 @@
   color: #9e9e9e;
 }
 
+.order-item{
+  cursor: pointer;
+}
+
+.order-item-active{
+  color: #999999;
+}
+
+.modal{
+  height: 400px
+} 
+
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

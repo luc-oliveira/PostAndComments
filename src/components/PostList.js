@@ -38,8 +38,10 @@ class PostList extends Component{
                         <th data-field="edit"></th>
                         <th data-field="author">Autor</th>
                         <th data-field="body">Post</th>
-                        <th data-field="data" onClick={() => this.changeOrder('timestamp')}>Data</th>
-                        <th data-field="voteScore" onClick={() => this.changeOrder('voteScore')}>Votos</th>
+                        <th data-field="data" onClick={() => this.changeOrder('timestamp')} 
+                            className={`order-item ${this.state.order === "timestamp" ? "order-item-active":""}`}>Data</th>
+                        <th data-field="voteScore" onClick={() => this.changeOrder('voteScore')} 
+                            className={`order-item ${this.state.order === "voteScore" ? "order-item-active":""}`}>Votos</th>
                         <th data-field="voteUp"></th>
                         <th data-field="voteDown"></th>
                     </tr>

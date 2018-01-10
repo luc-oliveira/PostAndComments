@@ -97,3 +97,15 @@ export function deleteComment(comment){
         })
     }).then(resp => resp.json());
 }
+
+export function putComment(comment){
+    let obj = JSON.stringify({ "body": comment.body, "timestamp": comment.timestamp });
+    return fetch(`${API_URL}/comments/${comment.id}`, {
+        method: 'put',
+        headers: new Headers({ 
+            "Authorization": AUTH,
+            "Content-Type":"application/json" 
+        }),
+        body: obj
+    }).then(resp => resp.json());
+}

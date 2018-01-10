@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table,Row, Button, Icon } from 'react-materialize';
+import { Table, Row, Button, Icon } from 'react-materialize';
 import {  voteComment, excludeComment } from '../actions';
 import Moment from 'react-moment';
 
@@ -19,29 +19,23 @@ class ListComments extends Component{
   return 0;
   }
 
-  changeOrder = (order) => {this.setState({order})}
-
-  componentWillMount(){  
-    
-  }
-
-  componentDidMount(){  
-    //console.log(this.props);
-  }
+  changeOrder = (order) => {this.setState({order})};
 
   render(){
     let { comments } = this.props;
     return (
         <Row>
-          <Table centered>
+            <Table centered>
                 <thead>
                     <tr>
                         <th data-field="exclude"></th>
                         <th data-field="edit"></th>
                         <th data-field="author">Autor</th>
                         <th data-field="body">Comment</th>
-                        <th data-field="data" onClick={() => this.changeOrder('timestamp')}>Data</th>
-                        <th data-field="voteScore" onClick={() => this.changeOrder('voteScore')}>Votos</th>
+                        <th data-field="data" onClick={() => this.changeOrder('timestamp')} 
+                            className={`order-item ${this.state.order === "timestamp" ? "order-item-active":""}`}>Data</th>
+                        <th data-field="voteScore" onClick={() => this.changeOrder('voteScore')} 
+                            className={`order-item ${this.state.order === "voteScore" ? "order-item-active":""}`}>Votos</th>
                         <th data-field="voteUp"></th>
                         <th data-field="voteDown"></th>
                     </tr>
@@ -49,14 +43,22 @@ class ListComments extends Component{
                 <tbody>
                 {comments.sort((a,b) => this.comparer(this.state.order,a,b)).map(comment => 
                           <tr key={comment.id}>
-                            <td><Button className="btn-edit" onClick={()=> this.props.deleteComment(comment)}><Icon tiny>close</Icon></Button></td>
-                            <td><Button className="btn-edit"><Icon tiny>create</Icon></Button></td>
+                            <td><Button className="btn-edit" 
+                            onClick={()=>{  this.props.deleteComment(comment, this.props.onRefreshComments); }}><Icon tiny>close</Icon></Button></td>
+                            <td><Button className="btn-edit"
+                            onClick={()=>{ this.props.onEditComment(comment)}}><Icon tiny>create</Icon></Button></td>
                             <td>{comment.author}</td>
                             <td>{comment.body}</td>
                             <td> <Moment format="DD/MM/YYYY" date={comment.timestamp} /> </td>
                             <td>{comment.voteScore}</td>
-                            <td><Button className="btn-vote green" onClick={()=> this.props.voteComment(comment.id, 'upVote') }><Icon tiny>thumb_up</Icon></Button></td>
-                            <td><Button className="btn-vote red" onClick={()=> this.props.voteComment(comment.id, 'downVote') }><Icon tiny>thumb_down</Icon></Button></td>
+                            <td><Button className="btn-vote green" 
+                                    onClick={()=> {
+                                        this.props.voteComment(comment.id, 'upVote', this.props.onRefreshComments);
+                                    }}><Icon tiny>thumb_up</Icon></Button></td>
+                            <td><Button className="btn-vote red" 
+                                    onClick={()=>{ 
+                                        this.props.voteComment(comment.id, 'downVote', this.props.onRefreshComments);
+                                    }}><Icon tiny>thumb_down</Icon></Button></td>
                           </tr>
                   )}
                 </tbody>
@@ -72,8 +74,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch){
   return {
-    voteComment: (commentId, vote) => dispatch(voteComment(commentId, vote)),
-    deleteComment: (comment) => dispatch(excludeComment(comment))
+    voteComment: (commentId, vote, callback) => dispatch(voteComment(commentId, vote, callback)),
+    deleteComment: (comment, callback) => dispatch(excludeComment(comment, callback))
   }
 }
 
