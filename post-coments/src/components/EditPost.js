@@ -60,8 +60,8 @@ class EditPost extends Component{
         const post = serializeForm(e.target, { hash: true })
         post.id = this.state.id;
 
-        if(this.props.EditPost)
-            this.props.EditPost(post)        
+        if(this.props.editPost)
+            this.props.editPost(post)        
     }
 
     handleComentSubmit = (e) => {
@@ -96,8 +96,9 @@ class EditPost extends Component{
                 { this.state.post != null 
                     &&
                    <Col s={12}>
-                    <Col s={12} className="right-align margin-15"><Button className="btn-remove red btn" onClick={() => this.DeletePost(post)}><Icon tiny>close</Icon></Button></Col>
-                    
+                    <Col s={12} className="right-align margin-15">
+                        <Button className="btn-remove red btn" onClick={() => this.props.deletePost(post)}><Icon tiny>close</Icon></Button>
+                    </Col>
                     <form onSubmit={this.handleSubmit}>
                         <Col s={6}>
                             <span className="span-info">
@@ -109,14 +110,14 @@ class EditPost extends Component{
                                 <label>Votos: {post.voteScore}</label>
                             </span>
                         </Col>
-                        <Input name="title" label="Título" s={12} defaultValue={post.title}/>
-                        <Input name="author" label="Autor" s={6}  defaultValue={post.author}/>
+                        <Input required name="title" label="Título" s={12} defaultValue={post.title}/>
+                        <Input required name="author" label="Autor" s={6}  defaultValue={post.author}/>
                         <Input s={6} name="category" type='select' label="Categoria" defaultValue={post.category}>
                             <option value='react'>React</option>
                             <option value='redux'>Redux</option>
                             <option value='udacity'>Udacity</option>
                         </Input> 
-                        <Input name="body" type="textarea" label="Post" s={12} defaultValue={post.body} />
+                        <Input required name="body" type="textarea" label="Post" s={12} defaultValue={post.body} />
                         <Col s={12} className="right-align"><Button className="btn">Editar<Icon right tiny>create</Icon></Button></Col>
                     </form> 
                    </Col>

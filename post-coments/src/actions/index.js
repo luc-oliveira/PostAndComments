@@ -84,6 +84,7 @@ export const excludePost = (post) => dispatch => {
 export const persistComment = (comment) => dispatch => {
     POSTS_API
         .sendComment(comment)
+        .then(comment => dispatch(fetchPosts()))
 }
 
 export const voteComment = (commentId, vote, callback) => dispatch => {
@@ -96,6 +97,7 @@ export const excludeComment = (comment, callback) => dispatch => {
     POSTS_API
         .deleteComment(comment)
         .then(comment => callback())
+        .then(comment => dispatch(fetchPosts()))
 }
 
 export const editComment = (comment, callback) => dispatch => {

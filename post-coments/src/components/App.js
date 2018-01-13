@@ -35,12 +35,12 @@ class App extends Component {
           <EditPost 
             id={this.props.match.params.postId}
             
-            EditPost= {post => {
+            editPost= {post => {
               this.props.editPost(post) 
               history.push('/')
             }}
 
-            DeletePost= {post => {
+            deletePost= {post => {
               this.props.removePost(post) 
               history.push('/')
             }}
@@ -56,14 +56,12 @@ function mapStateToProps (state) {
   return { state }
 }
 
-function mapDispatchToProps (dispatch){
-  return {
+const mapDispatchToProps = dispatch => ({
     addPost: (data) => dispatch(persistPost(data)),
     editPost: (data) => dispatch(editPost(data)),
     removePost: (data) => dispatch(excludePost(data)),
     receivePosts: () => dispatch(fetchPosts())
-  }
-}
+})
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);

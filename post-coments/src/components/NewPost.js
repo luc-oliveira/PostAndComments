@@ -29,14 +29,14 @@ class NewPost extends Component{
             <Col s={8} offset="s2"> 
                 <Card>
                 <form onSubmit={this.handleSubmit}>
-                    <Input name="title" placeholder="Título do post" s={12} />
-                    <Input name="author" placeholder="Digite o nome do autor" s={6} />
+                    <Input required name="title" placeholder="Título do post" s={12} />
+                    <Input required name="author" placeholder="Digite o nome do autor" s={6} />
                     <Input s={6} name="category" type='select' label="Categoria" defaultValue='1'>
                         <option value='react'>React</option>
                         <option value='redux'>Redux</option>
                         <option value='udacity'>Udacity</option>
                     </Input>
-                    <Input name="body" type="textarea" placeholder="Escreva seu post aqui" s={12} />
+                    <Input required name="body" type="textarea" placeholder="Escreva seu post aqui" s={12} />
                     <Button className="btn waves">Postar <Icon>send</Icon></Button>
                 </form>
                 </Card>
