@@ -86,7 +86,7 @@ export const persistComment = (comment) => dispatch => {
         .sendComment(comment)
         .then(comment => dispatch(fetchPosts()))
 }
-
+    
 export const voteComment = (commentId, vote, callback) => dispatch => {
     POSTS_API
         .voteComment(commentId, vote)
